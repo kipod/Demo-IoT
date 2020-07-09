@@ -1,0 +1,12 @@
+# ignore directories
+__pycache__/
+/.venv/
+
+# ignore files
+.env
+*.pyc
+
+# SQLite databases
+/*.sqlite3
+
+.DS_Store

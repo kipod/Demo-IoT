@@ -1,0 +1,715 @@
+info:
+  title: IOT
+  version: 1.0.0
+consumes:
+  - application/json
+produces:
+  - application/json
+swagger: '2.0'
+securityDefinitions:
+  keystone:
+    description: OpenStack Keystone Authentication
+    type: apiKey
+    in: header
+    name: x-auth-token
+
+security: []
+
+paths:
+  /api/v1/signup:
+    post:
+      operationId: CreateUser
+      tags:
+        - Registration
+      summary: Create a user
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/UserID'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      security:
+        - keystone: []
+
+  /api/v1/signin:
+    post:
+      operationId: Login
+      tags:
+        - Registration
+      summary: User login
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/UserID'
+      parameters:
+        - in: query
+          name: email
+          type: string
+          format: email
+          description: User e-mail
+        - in: query
+          name: password
+          type: string
+          format: password
+          description: User password
+      security:
+        - keystone: []
+
+  /api/v1/updateprofile:
+    post:
+      operationId: UpdateProfile
+      tags:
+        - Registration
+      summary: Update user profile
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/UpdatedUserData'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdatedUserData'
+      security:
+        - keystone: []
+
+  /api/v1/logout:
+    get:
+      operationId: Logout
+      tags:
+        - Registration
+      summary: User login
+      responses:
+        200:
+          description: OK
+      security:
+        - keystone: []
+
+  /api/v1/sendResetPasswordEmail:
+    post:
+      operationId: SendResetPasswordEmail
+      tags:
+        - Registration
+      summary: Send to user reset password e-mail
+      responses:
+        200:
+          description: OK
+      parameters:
+        - in: query
+          name: email
+          type: string
+          format: email
+          description: User e-mail
+      security:
+        - keystone: []
+
+  /api/v1/resetPassword:
+    post:
+      operationId: ResetPassword
+      tags:
+        - Registration
+      summary: User reset password
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/UserID'
+      parameters:
+        - in: query
+          name: email
+          type: string
+          description: User e-mail
+        - in: query
+          name: password
+          type: string
+          format: password
+          description: User password
+      security:
+        - keystone: []
+
+  /api/v1/dashboard:
+    get:
+      operationId: Dashboard
+      tags:
+        - Dashboard
+      summary: Fetch first level of data
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/DashboardData'
+      parameters:
+        - name: user_id
+          in: query
+          required: true
+          type: integer
+      security:
+        - keystone: []
+
+  /api/v1/portfolio:
+    get:
+      operationId: Portfolio
+      tags:
+        - Dashboard
+      summary: Fetch all Portfolio data
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/PortfolioData'
+      parameters:
+        - name: portfolio_id
+          in: query
+          required: true
+          type: integer
+      security:
+        - keystone: []
+
+  /api/v1/building:
+    get:
+      operationId: Building
+      tags:
+        - Dashboard
+      summary: Fetch all Building data
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/BuildingData'
+      parameters:
+        - name: building_id
+          in: query
+          required: true
+          type: integer
+      security:
+        - keystone: []
+
+  /api/v1/floor:
+    get:
+      operationId: Floor
+      tags:
+        - Dashboard
+      summary: Fetch all Floor data
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Floor'
+      parameters:
+        - name: floor_id
+          in: query
+          required: true
+          type: integer
+      security:
+        - keystone: []
+    
+  /api/v1/users:
+    get:
+      tags:
+        - User
+      summary: Fetch all users
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/AllUsers'
+      security:
+        - keystone: []
+    post:
+      summary: Save a user
+      tags:
+       - User
+      responses:
+        200:
+          description: OK
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      security:
+        - keystone: []
+        
+  /api/v1/users/{user_id}:
+    get:
+      tags:
+          - User
+      summary: Fetch a user by id
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+      parameters:
+        - name: user_id
+          in: path
+          type: integer
+          required: true
+          description: Numeric ID of a user
+      security:
+        - keystone: []
+    put:
+      summary: Update user
+      tags: 
+        - User
+      responses:
+        200:
+          description: OK
+      parameters:
+        - name: user_id
+          in: path
+          type: integer
+          required: true
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdatedUserData'
+      security:
+        - keystone: []
+    delete:
+      summary: Delete user
+      tags: 
+        - User
+      responses:
+        200:
+          description: OK
+      parameters:
+        - name: user_id
+          in: path
+          type: integer
+          required: true
+      security:
+        - keystone: []
+
+  /api/v1/buildings:
+    get:
+      tags:
+        - Buildings
+      summary: Fetch all buildings
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/AllBuildings'
+      security:
+        - keystone: []
+    post:
+      summary: Save a building
+      tags:
+       - Buildings
+      responses:
+        200:
+          description: OK
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Building'
+      security:
+        - keystone: []
+
+  /api/v1/buildings/{building_id}:
+    get:
+      tags:
+        - Buildings
+      summary: Fetch a building by id
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Building'
+      parameters:
+        - name: building_id
+          in: path
+          required: true
+          type: integer
+      security:
+        - keystone: []
+    put:
+      summary: Update a building
+      tags: 
+        - Buildings
+      responses:
+        200:
+          description: OK
+      parameters:
+        - name: building_id
+          in: path
+          type: integer
+          required: true
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Building'
+      security:
+        - keystone: []
+    delete:
+      summary: Delete building
+      tags: 
+        - Buildings
+      responses:
+        200:
+          description: OK
+      parameters:
+        - name: building_id
+          in: path
+          type: integer
+          required: true
+      security:
+        - keystone: []
+
+  /api/v1/portfolios:
+    get:
+      tags:
+        - Portfolio
+      summary: Fetch all portfolio
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/AllPortfolio'
+      security:
+        - keystone: []
+    post:
+      summary: Save a portfolio
+      tags:
+       - Portfolio
+      responses:
+        200:
+          description: OK
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Portfolio'
+      security:
+        - keystone: []
+        
+  /api/v1/portfolios/{portfolio_id}:
+    get:
+      tags:
+        - Portfolio
+      summary: Fetch a portfolio by id
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Portfolio'
+      parameters:
+        - name: portfolio_id
+          in: path
+          required: true
+          type: integer
+      security:
+        - keystone: []
+    put:
+      summary: Update a portfolio
+      tags: 
+        - Portfolio
+      responses:
+        200:
+          description: OK
+      parameters:
+        - name: portfolio_id
+          in: path
+          type: integer
+          required: true
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Portfolio'
+      security:
+        - keystone: []
+    delete:
+      summary: Delete portfolio
+      tags: 
+        - Portfolio
+      responses:
+        200:
+          description: OK
+      parameters:
+        - name: portfolio_id
+          in: path
+          type: integer
+          required: true
+      security:
+        - keystone: []
+        
+  /api/v1/floors:
+    get:
+      tags:
+        - Floors
+      summary: Fetch all floors
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/AllFloor'
+      security:
+        - keystone: []
+    post:
+      summary: Save a floor
+      tags:
+       - Floors
+      responses:
+        200:
+          description: OK
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Floor'
+      security:
+        - keystone: []
+        
+  /api/v1/floors/{floor_id}:
+    get:
+      tags:
+        - Floors
+      summary: Fetch a floor by id
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Floor'
+      parameters:
+        - name: floor_id
+          in: path
+          required: true
+          type: integer
+      security:
+        - keystone: []
+    put:
+      summary: Update a floor
+      tags: 
+        - Floors
+      responses:
+        200:
+          description: OK
+      parameters:
+        - name: floor_id
+          in: path
+          type: integer
+          required: true
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Floor'
+      security:
+        - keystone: []
+    delete:
+      summary: Delete floor
+      tags: 
+        - Floors
+      responses:
+        200:
+          description: OK
+      parameters:
+        - name: floor_id
+          in: path
+          type: integer
+          required: true
+      security:
+        - keystone: []
+
+definitions:
+  User:
+    type: object
+    properties:
+      name:
+        description: user name
+        type: string
+      email:
+        description: user's e-mail
+        type: string
+        format: email
+      password:
+        description: user password
+        type: string
+  UserID:
+    type: object
+    properties:
+      name:
+        description: user name
+        type: string
+      email:
+        description: user's e-mail
+        type: string
+        format: email
+  UpdatedUserData:
+    type: object
+    properties:
+      name:
+        description: user name
+        type: string
+      notes:
+        description: user's notes
+        type: string
+  AllUsers:
+    type: object
+    properties:
+      users:
+        description: All Users' data
+        type: array
+        items:
+          $ref: '#/definitions/User'
+    
+  
+  Company:
+    type: object
+    properties:
+      name:
+        description: Name of the company
+        type: string
+      logo:
+        description: Logo of the company
+        type: string
+      administrator:
+        description: Company administrator
+        $ref: '#/definitions/User'
+
+  Portfolio:
+    type: object
+    properties:
+      portfolio_id:
+        description: Portfolio id
+        type: integer
+      name:
+        description: Portfolio name
+        type: string
+      workstation_count:
+        description: Workstation count
+        type: integer
+      room_count:
+        description: Room count
+        type: integer
+      # sensors:
+      #   description: \# of sensors
+      #   type: integer
+  AllPortfolio:
+    type: object
+    properties:
+      portfolios:
+        description: All portfolio
+        type: array
+        items:
+          $ref: '#/definitions/Portfolio'
+
+  DashboardData:
+    type: object
+    properties:
+      portfolios:
+        description: Portfolios
+        type: array
+        items:
+          $ref: '#/definitions/Portfolio'
+
+  PortfolioData:
+    type: object
+    properties:
+      buildings:
+        description: Buildings
+        type: array
+        items:
+          $ref: '#/definitions/Building'
+
+  Building:
+    type: object
+    properties:
+      building_id:
+        description: Building id
+        type: integer
+      name:
+        description: Building name
+        type: string
+      images:
+        description: Building items
+        type: array
+        items:
+          type: string
+          format: uri
+      address:
+        description: Building address
+        type: string
+      workstation_count:
+        description: Workstation count
+        type: integer
+      room_count:
+        description: Room count
+        type: integer
+      # daily_utilized_workstation:
+      #   description: Daily utilization at workstations
+      #   type: array
+      #   items:
+      #     type: # think of it later
+      # sensors:
+      #   description: \# of sensors
+      #   type: integer
+  BuildingData:
+    type: object
+    properties:
+      buildings:
+        description: Building Data
+        type: array
+        items:
+          $ref: '#/definitions/Floor'
+  AllBuildings:
+    type: object
+    properties:
+      buildings:
+        description: All buildings
+        type: array
+        items:
+          $ref: '#/definitions/Building'
+
+  Floor:
+    type: object
+    properties:
+      floor_id:
+        description: Floor id
+        type: integer
+      name:
+        description: Floor name
+        type: string
+      plan:
+        description: Floor image plan
+        type: string
+        format: uri
+      workstation_count:
+        description: Workstation count
+        type: integer
+      room_count:
+        description: Room count
+        type: integer
+      # daily_utilized_workstation:
+      #   description: Daily utilization at workstations
+      #   type: array
+      #   items:
+      #     type: # think of it later
+      # sensors:
+      #   description: \# of sensors
+      #   type: integer
+  AllFloors:
+    type: object
+    properties:
+      floors:
+        description: All floors
+        type: array
+        items:
+          $ref: '#/definitions/Floor'

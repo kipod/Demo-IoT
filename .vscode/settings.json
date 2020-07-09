@@ -1,0 +1,13 @@
+{
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true,
+    "python.formatting.provider": "black",
+    "cSpell.words": [
+        "mypassword",
+        "psql",
+        "signin",
+        "signup",
+        "swaggerui",
+        "workdir"
+    ]
+}

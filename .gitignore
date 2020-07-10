@@ -4,6 +4,7 @@ __pycache__/
 
 # ignore files
 .env
+/_client_secrets.json
 *.pyc
 
 # SQLite databases

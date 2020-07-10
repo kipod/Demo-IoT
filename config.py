@@ -27,6 +27,11 @@ class DevelopmentConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "DEVELOP_DATABASE_URL", "postgresql+psycopg2://postgres:mypassword@db/db"
     )
+    OIDC_CLIENT_SECRETS = "client_secrets.json"
+    OIDC_COOKIE_SECURE = False
+    OIDC_CALLBACK_ROUTE = "/oidc/callback"
+    OIDC_SCOPES = ["openid", "email", "profile"]
+    SECRET_KEY = "bububu{{ LONG_RANDOM_STRING }}"
 
 
 class TestingConfig(BaseConfig):

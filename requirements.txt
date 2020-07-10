@@ -16,3 +16,5 @@ flask-swagger-ui
 black
 flask-restful
 psycopg2-binary
+flask-oidc>=1.4.0
+okta

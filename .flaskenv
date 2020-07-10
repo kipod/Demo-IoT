@@ -7,3 +7,7 @@
 FLASK_APP=wsgi:app
 FLASK_ENV=development
 FLASK_DEBUG=1
+
+DEVELOP_DATABASE_URL=sqlite:///database-test.sqlite3
+
+OKTA_URL=https://dev-329158.okta.com

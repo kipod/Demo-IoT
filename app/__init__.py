@@ -4,10 +4,17 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from werkzeug.exceptions import HTTPException
+from flask_oidc import OpenIDConnect
+from okta import UsersClient
 
 # instantiate extensions
 login_manager = LoginManager()
 db = SQLAlchemy()
+oidc = None
+okta_client = None
+
+OKTA_AUTH_TOKEN = os.environ.get('OKTA_AUTH_TOKEN', None)
+OKTA_ORG_URL = "https://dev-329158.okta.com"
 
 
 def create_app(environment='development'):
@@ -26,6 +33,10 @@ def create_app(environment='development'):
     env = os.environ.get('FLASK_ENV', environment)
     app.config.from_object(config[env])
     config[env].configure(app)
+    global oidc
+    oidc = OpenIDConnect(app)
+    global okta_client
+    okta_client = UsersClient(OKTA_ORG_URL, OKTA_AUTH_TOKEN)
 
     # Set up extensions.
     db.init_app(app)

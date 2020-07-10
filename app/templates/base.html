@@ -35,6 +35,7 @@
               <a class="nav-link dropdown-toggle" href="#" id="userActions" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">{{current_user.username | capitalize}}</a>
               <div class="dropdown-menu" aria-labelledby="userActions">
+                <a class="dropdown-item" href="{{ url_for('main.dashboard') }}">Dashboard</a>
                 <a class="dropdown-item" href="{{ url_for('auth.logout') }}">Logout</a>
               </div>
             </li>

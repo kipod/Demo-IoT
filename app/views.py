@@ -18,6 +18,8 @@ def swagger():
 def before_request():
     if oidc.user_loggedin:
         g.user = okta_client.get_user(oidc.user_getfield("sub"))
+        g.email = oidc.user_getfield('email')
+        g.name = oidc.user_getfield('name')
     else:
         g.user = None
 

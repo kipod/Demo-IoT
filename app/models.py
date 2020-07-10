@@ -1,4 +1,4 @@
-from .auth.models import User, AnonymousUser  # noqa F401
+from .auth.models import User  # noqa F401
 
 # Define your models here.
 # You can also define them inside a package and import them here.

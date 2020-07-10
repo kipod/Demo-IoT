@@ -1,6 +1,5 @@
 from datetime import datetime
 
-from flask_login import UserMixin, AnonymousUserMixin
 from sqlalchemy.ext.hybrid import hybrid_property
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -8,7 +7,7 @@ from app import db
 from app.utils import ModelMixin
 
 
-class User(db.Model, UserMixin, ModelMixin):
+class User(db.Model, ModelMixin):
 
     __tablename__ = 'users'
 
@@ -35,7 +34,3 @@ class User(db.Model, UserMixin, ModelMixin):
 
     def __str__(self):
         return '<User: %s>' % self.username
-
-
-class AnonymousUser(AnonymousUserMixin):
-    pass

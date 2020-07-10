@@ -2,19 +2,17 @@ import os
 
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
 from werkzeug.exceptions import HTTPException
 from flask_oidc import OpenIDConnect
 from okta import UsersClient
 
 # instantiate extensions
-login_manager = LoginManager()
 db = SQLAlchemy()
 oidc = None
 okta_client = None
 
 OKTA_AUTH_TOKEN = os.environ.get('OKTA_AUTH_TOKEN', None)
-OKTA_ORG_URL = "https://dev-329158.okta.com"
+OKTA_ORG_URL = os.environ.get('OKTA_ORG_URL', None)
 
 
 def create_app(environment='development'):
@@ -35,7 +33,6 @@ def create_app(environment='development'):
 
     # Set up extensions.
     db.init_app(app)
-    login_manager.init_app(app)
 
     # Register blueprints.
     from app.views import main_blueprint
@@ -47,17 +44,6 @@ def create_app(environment='development'):
     app.register_blueprint(main_blueprint)
     app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
     app.register_blueprint(api_blueprint, url_prefix='/api/v1')
-
-    # Set up flask login.
-    from app.auth.models import User, AnonymousUser
-
-    @login_manager.user_loader
-    def get_user(id):
-        return User.query.get(int(id))
-
-    login_manager.login_view = 'auth.login'
-    login_manager.login_message_category = 'info'
-    login_manager.anonymous_user = AnonymousUser
 
     # Error handlers.
     @app.errorhandler(HTTPException)

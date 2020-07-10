@@ -4,8 +4,17 @@
 <div class="container">
   <h1>Welcome to the <b>User dashboard</b></h1>
   <hr>
-  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto cupiditate obcaecati fugiat fugit deleniti,
-    nulla reiciendis quam nemo, aut quos ea tempore dicta, consequuntur nostrum laboriosam! Quam, obcaecati? Corporis,
-    alias.</p>
+    <div class="card border-primary mb-3" style="max-width: 18rem;">
+      <div class="card-header">E-Mail</div>
+      <div class="card-body text-primary">
+        <h5 class="card-title">{{g.email}}</h5>
+      </div>
+    </div>
+    <div class="card border-secondary mb-3" style="max-width: 18rem;">
+      <div class="card-header">User name</div>
+      <div class="card-body text-secondary">
+        <h5 class="card-title">{{g.name}}</h5>
+      </div>
+    </div>
 </div>
 {% endblock %}
